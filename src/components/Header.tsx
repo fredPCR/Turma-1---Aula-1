@@ -1,152 +1,127 @@
 import React from 'react';
-import { TabType } from '../types';
-import { Presentation, Sparkles, Terminal, Users, ShieldAlert, FolderDown, Maximize2 } from 'lucide-react';
+import { Sparkles, Terminal, MessageSquare } from 'lucide-react';
 
 interface HeaderProps {
-  activeTab: TabType;
-  setActiveTab: (tab: TabType) => void;
-  onEnterPresentationMode: () => void;
+  activeSection: string;
+  onNavigate: (sectionId: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-  activeTab,
-  setActiveTab,
-  onEnterPresentationMode
-}) => {
+export const Header: React.FC<HeaderProps> = ({ activeSection, onNavigate }) => {
   return (
-    <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-8 px-6 py-3.5">
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-8 px-4 sm:px-6 py-3.5">
         
         {/* Zone 1: Single text element wordmark */}
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-400/20 flex items-center justify-center text-sky-400 font-bold text-sm">
+        <a 
+          href="#inicio" 
+          onClick={(e) => { e.preventDefault(); onNavigate('inicio'); }}
+          className="flex items-center gap-2.5 shrink-0 group"
+        >
+          <div className="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center text-white font-bold text-xs tracking-wider shadow-xs">
             PCR
           </div>
-          <span className="text-base font-semibold tracking-tight text-white whitespace-nowrap">
-            IA no Dia a Dia <span className="text-slate-500 font-normal">· Escola de Governo</span>
+          <span className="text-base font-bold tracking-tight text-slate-900 whitespace-nowrap">
+            IA no Dia a Dia <span className="text-slate-400 font-normal text-sm">· Escola de Governo</span>
           </span>
-        </div>
+        </a>
 
         {/* Zone 2: 4-5 concise single-line text navigation links */}
-        <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-300">
+        <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600">
           <button
-            onClick={() => setActiveTab('slides')}
-            className={`whitespace-nowrap shrink-0 transition-colors py-1 ${
-              activeTab === 'slides'
-                ? 'text-sky-400 border-b-2 border-sky-400 font-semibold'
-                : 'hover:text-white'
+            onClick={() => onNavigate('conceito')}
+            className={`whitespace-nowrap shrink-0 transition-colors py-1 hover:text-sky-700 ${
+              activeSection === 'conceito' ? 'text-sky-700 border-b-2 border-sky-600 font-semibold' : ''
             }`}
           >
-            Slides da Aula
-          </button>
-          
-          <button
-            onClick={() => setActiveTab('prompt-studio')}
-            className={`whitespace-nowrap shrink-0 transition-colors py-1 ${
-              activeTab === 'prompt-studio'
-                ? 'text-sky-400 border-b-2 border-sky-400 font-semibold'
-                : 'hover:text-white'
-            }`}
-          >
-            Simulador de Prompts
+            O que é IA
           </button>
 
           <button
-            onClick={() => setActiveTab('lab')}
-            className={`whitespace-nowrap shrink-0 transition-colors py-1 ${
-              activeTab === 'lab'
-                ? 'text-sky-400 border-b-2 border-sky-400 font-semibold'
-                : 'hover:text-white'
+            onClick={() => onNavigate('preditiva-generativa')}
+            className={`whitespace-nowrap shrink-0 transition-colors py-1 hover:text-sky-700 ${
+              activeSection === 'preditiva-generativa' ? 'text-sky-700 border-b-2 border-sky-600 font-semibold' : ''
             }`}
           >
-            Laboratório Didático
+            Preditiva vs Generativa
           </button>
 
           <button
-            onClick={() => setActiveTab('mural')}
-            className={`whitespace-nowrap shrink-0 transition-colors py-1 ${
-              activeTab === 'mural'
-                ? 'text-sky-400 border-b-2 border-sky-400 font-semibold'
-                : 'hover:text-white'
+            onClick={() => onNavigate('cotidiano')}
+            className={`whitespace-nowrap shrink-0 transition-colors py-1 hover:text-sky-700 ${
+              activeSection === 'cotidiano' ? 'text-sky-700 border-b-2 border-sky-600 font-semibold' : ''
+            }`}
+          >
+            No Cotidiano
+          </button>
+
+          <button
+            onClick={() => onNavigate('colapso')}
+            className={`whitespace-nowrap shrink-0 transition-colors py-1 hover:text-sky-700 ${
+              activeSection === 'colapso' ? 'text-sky-700 border-b-2 border-sky-600 font-semibold' : ''
+            }`}
+          >
+            Colapso de Modelos
+          </button>
+
+          <button
+            onClick={() => onNavigate('lgpd')}
+            className={`whitespace-nowrap shrink-0 transition-colors py-1 hover:text-sky-700 ${
+              activeSection === 'lgpd' ? 'text-sky-700 border-b-2 border-sky-600 font-semibold' : ''
+            }`}
+          >
+            LGPD & Ética
+          </button>
+
+          <button
+            onClick={() => onNavigate('prompts')}
+            className={`whitespace-nowrap shrink-0 transition-colors py-1 hover:text-sky-700 ${
+              activeSection === 'prompts' ? 'text-sky-700 border-b-2 border-sky-600 font-semibold' : ''
+            }`}
+          >
+            Prompts Eficientes
+          </button>
+
+          <button
+            onClick={() => onNavigate('mural')}
+            className={`whitespace-nowrap shrink-0 transition-colors py-1 hover:text-sky-700 ${
+              activeSection === 'mural' ? 'text-sky-700 border-b-2 border-sky-600 font-semibold' : ''
             }`}
           >
             Mural da Turma
           </button>
 
           <button
-            onClick={() => setActiveTab('lgpd')}
-            className={`whitespace-nowrap shrink-0 transition-colors py-1 ${
-              activeTab === 'lgpd'
-                ? 'text-sky-400 border-b-2 border-sky-400 font-semibold'
-                : 'hover:text-white'
+            onClick={() => onNavigate('gmail')}
+            className={`whitespace-nowrap shrink-0 transition-colors py-1 hover:text-sky-700 ${
+              activeSection === 'gmail' ? 'text-sky-700 border-b-2 border-sky-600 font-semibold' : ''
             }`}
           >
-            Guia LGPD
-          </button>
-
-          <button
-            onClick={() => setActiveTab('materiais')}
-            className={`whitespace-nowrap shrink-0 transition-colors py-1 ${
-              activeTab === 'materiais'
-                ? 'text-sky-400 border-b-2 border-sky-400 font-semibold'
-                : 'hover:text-white'
-            }`}
-          >
-            Materiais & PDF
+            Gemini no Gmail
           </button>
         </nav>
 
         {/* Zone 3: 1 primary action */}
         <div className="flex items-center gap-3 shrink-0">
           <button
-            onClick={onEnterPresentationMode}
-            className="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-900 bg-sky-400 hover:bg-sky-300 rounded-md transition-all shadow-sm whitespace-nowrap shrink-0 active:scale-95"
-            title="Abre os slides em tela cheia para apresentação durante a aula"
+            onClick={() => onNavigate('prompts')}
+            className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-lg transition-all shadow-xs whitespace-nowrap shrink-0 active:scale-95"
           >
-            <Presentation className="w-3.5 h-3.5" />
-            <span>Modo Apresentador</span>
+            <Terminal className="w-3.5 h-3.5" />
+            <span>Simulador de Prompts</span>
           </button>
         </div>
       </div>
 
-      {/* Mobile navigation row */}
-      <div className="lg:hidden flex overflow-x-auto scrollbar-none border-t border-slate-800 px-4 py-2 gap-4 text-xs font-medium text-slate-400">
-        <button
-          onClick={() => setActiveTab('slides')}
-          className={`whitespace-nowrap shrink-0 ${activeTab === 'slides' ? 'text-sky-400 font-semibold' : ''}`}
-        >
-          Slides
-        </button>
-        <button
-          onClick={() => setActiveTab('prompt-studio')}
-          className={`whitespace-nowrap shrink-0 ${activeTab === 'prompt-studio' ? 'text-sky-400 font-semibold' : ''}`}
-        >
-          Prompts
-        </button>
-        <button
-          onClick={() => setActiveTab('lab')}
-          className={`whitespace-nowrap shrink-0 ${activeTab === 'lab' ? 'text-sky-400 font-semibold' : ''}`}
-        >
-          Laboratório
-        </button>
-        <button
-          onClick={() => setActiveTab('mural')}
-          className={`whitespace-nowrap shrink-0 ${activeTab === 'mural' ? 'text-sky-400 font-semibold' : ''}`}
-        >
-          Mural da Turma
-        </button>
-        <button
-          onClick={() => setActiveTab('lgpd')}
-          className={`whitespace-nowrap shrink-0 ${activeTab === 'lgpd' ? 'text-sky-400 font-semibold' : ''}`}
-        >
-          LGPD
-        </button>
-        <button
-          onClick={() => setActiveTab('materiais')}
-          className={`whitespace-nowrap shrink-0 ${activeTab === 'materiais' ? 'text-sky-400 font-semibold' : ''}`}
-        >
-          Materiais
-        </button>
+      {/* Mobile navigation scrollbar */}
+      <div className="lg:hidden flex overflow-x-auto scrollbar-none border-t border-slate-200 px-4 py-2 gap-3 text-xs font-medium text-slate-600 bg-slate-50">
+        <button onClick={() => onNavigate('conceito')} className="whitespace-nowrap shrink-0 py-1 px-2 hover:text-sky-700">O que é IA</button>
+        <button onClick={() => onNavigate('preditiva-generativa')} className="whitespace-nowrap shrink-0 py-1 px-2 hover:text-sky-700">Preditiva vs Generativa</button>
+        <button onClick={() => onNavigate('cotidiano')} className="whitespace-nowrap shrink-0 py-1 px-2 hover:text-sky-700">Cotidiano</button>
+        <button onClick={() => onNavigate('colapso')} className="whitespace-nowrap shrink-0 py-1 px-2 hover:text-sky-700">Colapso de Modelos</button>
+        <button onClick={() => onNavigate('lgpd')} className="whitespace-nowrap shrink-0 py-1 px-2 hover:text-sky-700">LGPD</button>
+        <button onClick={() => onNavigate('prompts')} className="whitespace-nowrap shrink-0 py-1 px-2 hover:text-sky-700">Prompts</button>
+        <button onClick={() => onNavigate('mural')} className="whitespace-nowrap shrink-0 py-1 px-2 hover:text-sky-700">Mural</button>
+        <button onClick={() => onNavigate('gmail')} className="whitespace-nowrap shrink-0 py-1 px-2 hover:text-sky-700">Gmail</button>
       </div>
     </header>
   );

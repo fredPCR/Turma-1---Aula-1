@@ -8,17 +8,13 @@ import {
   Play, 
   Pause, 
   RotateCcw, 
-  Download, 
   Copy, 
   Check, 
-  Filter, 
   Sparkles,
-  Users,
-  MessageSquare
+  Users
 } from 'lucide-react';
 
 export const ClassroomBoard: React.FC = () => {
-  // Load ideas from local storage or defaults
   const [ideas, setIdeas] = useState<MuralIdea[]>(() => {
     const saved = localStorage.getItem('pcr_mural_ideas');
     if (saved) {
@@ -35,7 +31,7 @@ export const ClassroomBoard: React.FC = () => {
   const [timerSeconds, setTimerSeconds] = useState(600);
   const [timerRunning, setTimerRunning] = useState(false);
 
-  // New idea form modal or inline state
+  // Form states
   const [showAddForm, setShowAddForm] = useState(false);
   const [author, setAuthor] = useState('');
   const [department, setDepartment] = useState('Secretaria de Educação');
@@ -46,12 +42,10 @@ export const ClassroomBoard: React.FC = () => {
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [isCopiedReport, setIsCopiedReport] = useState(false);
 
-  // Save to localStorage
   useEffect(() => {
     localStorage.setItem('pcr_mural_ideas', JSON.stringify(ideas));
   }, [ideas]);
 
-  // Sprint timer
   useEffect(() => {
     let interval: any = null;
     if (timerRunning && timerSeconds > 0) {
@@ -130,32 +124,31 @@ export const ClassroomBoard: React.FC = () => {
     : ideas.filter(i => i.category === filterCategory);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Activity Intro Banner */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 lg:p-8 space-y-4">
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 lg:p-8 space-y-4 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-400/20 text-xs font-bold uppercase tracking-wider">
-                Slide 12 · Atividade Rápida
-              </span>
-              <span className="text-xs text-slate-400">· Participação Ativa da Turma</span>
+            <div className="flex items-center gap-2 text-xs font-semibold text-sky-700">
+              <span>Atividade Prática em Sala</span>
+              <span aria-hidden="true">·</span>
+              <span>Construção Coletiva</span>
             </div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">
-              Mural da Turma: Pense na sua rotina e compartilhe
-            </h2>
+            <h3 className="text-2xl font-bold text-slate-900 tracking-tight">
+              Mural da Turma: Oportunidades na Sua Rotina
+            </h3>
           </div>
 
           {/* Activity countdown timer */}
-          <div className="flex items-center gap-3 bg-slate-950 border border-slate-800 px-4 py-2 rounded-xl">
-            <div className="flex items-center gap-2 font-mono text-sm font-bold text-sky-400">
-              <Clock className="w-4 h-4 text-slate-400" />
+          <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl">
+            <div className="flex items-center gap-2 font-mono text-sm font-bold text-slate-800">
+              <Clock className="w-4 h-4 text-sky-600" />
               <span>{formatTimer(timerSeconds)}</span>
             </div>
-            <div className="flex items-center gap-1 border-l border-slate-800 pl-2">
+            <div className="flex items-center gap-1 border-l border-slate-200 pl-2">
               <button
                 onClick={() => setTimerRunning(!timerRunning)}
-                className="p-1 rounded hover:bg-slate-800 text-slate-300 transition-colors"
+                className="p-1 rounded hover:bg-slate-200 text-slate-600 transition-colors"
                 title={timerRunning ? 'Pausar' : 'Iniciar cronômetro de 10 min'}
               >
                 {timerRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
@@ -165,7 +158,7 @@ export const ClassroomBoard: React.FC = () => {
                   setTimerRunning(false);
                   setTimerSeconds(600);
                 }}
-                className="p-1 rounded hover:bg-slate-800 text-slate-300 transition-colors"
+                className="p-1 rounded hover:bg-slate-200 text-slate-600 transition-colors"
                 title="Reiniciar 10 minutos"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -174,8 +167,8 @@ export const ClassroomBoard: React.FC = () => {
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-sky-950/40 border border-sky-800/40 text-xs md:text-sm text-sky-200">
-          <span className="font-semibold block mb-0.5 text-sky-100">Desafio para cada participante:</span>
+        <div className="p-4 rounded-xl bg-sky-50/70 border border-sky-200 text-xs md:text-sm text-sky-950">
+          <span className="font-semibold block mb-0.5 text-sky-900">Pergunta da dinâmica:</span>
           "O que você faz todos os dias durante o trabalho que poderia ser realizado de uma forma mais organizada, rápida ou consistente com o apoio da IA?"
         </div>
 
@@ -184,32 +177,32 @@ export const ClassroomBoard: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowAddForm(!showAddForm)}
-              className="flex items-center gap-1.5 px-4 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 rounded-xl text-xs font-semibold transition-all shadow-md active:scale-95"
+              className="flex items-center gap-1.5 px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-semibold transition-all shadow-xs active:scale-95"
             >
               <Plus className="w-4 h-4" />
-              <span>{showAddForm ? 'Cancelar Cadastro' : 'Publicar Nova Ideia'}</span>
+              <span>{showAddForm ? 'Cancelar' : 'Publicar Minha Ideia'}</span>
             </button>
 
             <button
               onClick={handleExportMarkdown}
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium transition-colors"
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-medium transition-colors"
               title="Copiar relatório completo com todas as sugestões da turma em Markdown"
             >
-              {isCopiedReport ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{isCopiedReport ? 'Relatório Copiado!' : 'Exportar Relatório da Aula'}</span>
+              {isCopiedReport ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{isCopiedReport ? 'Relatório Copiado!' : 'Copiar Síntese da Turma'}</span>
             </button>
           </div>
 
           {/* Category filter */}
-          <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+          <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-xl border border-slate-200 text-xs">
             {['all', 'Atendimento', 'Documentos', 'Organização', 'Planejamento', 'Análise'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilterCategory(cat)}
                 className={`px-2.5 py-1 rounded-lg transition-colors ${
                   filterCategory === cat
-                    ? 'bg-sky-500 text-slate-950 font-semibold'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-sky-600 text-white font-semibold shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 {cat === 'all' ? 'Todas' : cat}
@@ -221,15 +214,15 @@ export const ClassroomBoard: React.FC = () => {
 
       {/* Add idea form drawer */}
       {showAddForm && (
-        <form onSubmit={handleAddIdea} className="bg-slate-900 border border-sky-500/40 rounded-2xl p-6 space-y-4 shadow-xl">
-          <h3 className="text-sm font-bold text-white flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-sky-400" />
+        <form onSubmit={handleAddIdea} className="bg-white border border-sky-300 rounded-2xl p-6 space-y-4 shadow-sm">
+          <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-sky-600" />
             <span>Compartilhar Oportunidade da Sua Rotina</span>
-          </h3>
+          </h4>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block mb-1">
                 Seu Nome (Opcional)
               </label>
               <input
@@ -237,18 +230,18 @@ export const ClassroomBoard: React.FC = () => {
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 placeholder="Ex: João da Silva"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-sky-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500 focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block mb-1">
                 Secretaria / Órgão
               </label>
               <select
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-sky-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500 focus:bg-white"
               >
                 <option value="Secretaria de Educação">Secretaria de Educação</option>
                 <option value="Secretaria de Saúde">Secretaria de Saúde</option>
@@ -263,13 +256,13 @@ export const ClassroomBoard: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block mb-1">
                 Categoria
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as any)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-sky-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 focus:outline-none focus:border-sky-500 focus:bg-white"
               >
                 <option value="Organização">Organização</option>
                 <option value="Atendimento">Atendimento</option>
@@ -282,7 +275,7 @@ export const ClassroomBoard: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              <label className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block mb-1">
                 O que você faz hoje manualmente?
               </label>
               <textarea
@@ -291,12 +284,12 @@ export const ClassroomBoard: React.FC = () => {
                 rows={3}
                 required
                 placeholder="Ex: Todo dia leio 30 memorandos e anoto em uma planilha quem é o responsável..."
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-sky-500 resize-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 focus:outline-none focus:border-sky-500 focus:bg-white resize-none"
               />
             </div>
 
             <div>
-              <label className="text-[11px] font-bold text-sky-400 uppercase tracking-wider block mb-1">
+              <label className="text-[11px] font-bold text-sky-800 uppercase tracking-wider block mb-1">
                 Como a IA (Gemini) poderia apoiar?
               </label>
               <textarea
@@ -305,22 +298,22 @@ export const ClassroomBoard: React.FC = () => {
                 rows={3}
                 required
                 placeholder="Ex: Extrair automaticamente data de vencimento e assunto em formato de tabela..."
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-sky-500 resize-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 focus:outline-none focus:border-sky-500 focus:bg-white resize-none"
               />
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end gap-2 pt-1">
             <button
               type="button"
               onClick={() => setShowAddForm(false)}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-xl"
+              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs rounded-xl"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-5 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold rounded-xl shadow-md"
+              className="px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold rounded-xl shadow-xs"
             >
               Publicar no Mural
             </button>
@@ -333,48 +326,48 @@ export const ClassroomBoard: React.FC = () => {
         {filteredIdeas.map((idea) => (
           <div
             key={idea.id}
-            className="p-5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between space-y-4 hover:border-slate-700 transition-all shadow-sm group"
+            className="p-5 rounded-2xl bg-white border border-slate-200 flex flex-col justify-between space-y-4 hover:border-slate-300 transition-all shadow-xs"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-slate-300 truncate max-w-[170px]">
+                <span className="font-bold text-slate-800 truncate max-w-[170px]">
                   {idea.department}
                 </span>
-                <span className="px-2 py-0.5 rounded bg-slate-800 text-[10px] text-sky-400 font-mono">
+                <span className="px-2 py-0.5 rounded bg-slate-100 text-[10px] text-sky-800 font-medium">
                   {idea.category}
                 </span>
               </div>
 
               {/* Task vs Opportunity */}
               <div className="space-y-2 text-xs">
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800/80">
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
                   <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
                     Rotina Atual:
                   </span>
-                  <p className="text-slate-300 leading-relaxed font-sans">{idea.currentTask}</p>
+                  <p className="text-slate-700 leading-relaxed font-sans">{idea.currentTask}</p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-sky-950/30 border border-sky-900/50">
-                  <span className="text-[10px] font-bold text-sky-400 uppercase tracking-wider block mb-1">
+                <div className="p-3 rounded-xl bg-sky-50/50 border border-sky-200">
+                  <span className="text-[10px] font-bold text-sky-800 uppercase tracking-wider block mb-1">
                     Solução com IA:
                   </span>
-                  <p className="text-sky-100 leading-relaxed font-sans">{idea.aiOpportunity}</p>
+                  <p className="text-sky-950 leading-relaxed font-sans">{idea.aiOpportunity}</p>
                 </div>
               </div>
             </div>
 
             {/* Footer with Author and Upvoting */}
-            <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-              <span className="truncate max-w-[140px] text-[11px] text-slate-400">
-                Por: <strong className="text-slate-300 font-medium">{idea.author}</strong>
+            <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span className="truncate max-w-[140px] text-[11px]">
+                Por: <strong className="text-slate-800 font-medium">{idea.author}</strong>
               </span>
 
               <button
                 onClick={() => handleVote(idea.id)}
-                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   idea.voted
-                    ? 'bg-sky-500 text-slate-950 font-bold'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    ? 'bg-sky-600 text-white font-bold'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                 }`}
                 title="Votar nesta oportunidade"
               >
