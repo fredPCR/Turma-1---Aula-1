@@ -1,0 +1,6 @@
+{
+  "name": "IA no Dia a Dia - Portal da Aula e Slides Interativos | PCR",
+  "description": "Ambiente didático interativo e elegante para o curso de Inteligência Artificial no Dia a Dia da Prefeitura da Cidade do Recife, com apresentação de slides, simuladores de prompts, atividades práticas e guia de Gemini no Gmail.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
