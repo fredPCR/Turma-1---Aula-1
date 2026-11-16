@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { CourseSections } from './components/CourseSections';
 import { InteractiveLab } from './components/InteractiveLab';
@@ -17,8 +17,35 @@ import {
   BookOpen
 } from 'lucide-react';
 
+const LINE_ONE = 'Inteligência Artificial';
+const LINE_TWO = 'no dia a dia';
+const FULL_TITLE = `${LINE_ONE} ${LINE_TWO}`;
+
 export default function App() {
   const [activeSection, setActiveSection] = useState<string>('inicio');
+  const [typedCount, setTypedCount] = useState<number>(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return FULL_TITLE.length;
+    }
+    return 0;
+  });
+
+  useEffect(() => {
+    if (typedCount >= FULL_TITLE.length) return;
+
+    const delay = typedCount === LINE_ONE.length ? 220 : 52;
+    const timer = window.setTimeout(() => {
+      setTypedCount((prev) => prev + 1);
+    }, delay);
+
+    return () => window.clearTimeout(timer);
+  }, [typedCount]);
+
+  const typedLineOne = LINE_ONE.slice(0, Math.min(typedCount, LINE_ONE.length));
+  const typedLineTwo = typedCount > LINE_ONE.length
+    ? LINE_TWO.slice(0, typedCount - LINE_ONE.length - 1)
+    : '';
+  const isTypingLineOne = typedCount <= LINE_ONE.length;
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -56,9 +83,32 @@ export default function App() {
               </div>
 
               <div className="space-y-3">
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 tracking-tight leading-tight text-balance">
-                  Inteligência Artificial <br className="hidden sm:inline" />
-                  <span className="text-sky-600">no dia a dia</span>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 tracking-tight leading-tight text-balance grid">
+                  <span className="sr-only">Inteligência Artificial no dia a dia</span>
+                  <span aria-hidden="true" className="col-start-1 row-start-1 invisible select-none">
+                    Inteligência Artificial <br className="hidden sm:inline" />
+                    <span>no dia a dia</span>
+                  </span>
+                  <span aria-hidden="true" className="col-start-1 row-start-1">
+                    {typedLineOne}
+                    {isTypingLineOne && (
+                      <span
+                        className="inline-block w-[3px] h-[0.88em] ml-1 align-middle bg-sky-600 animate-cursor-blink motion-reduce:hidden rounded-xs"
+                      />
+                    )}
+                    {!isTypingLineOne && (
+                      <>
+                        {' '}
+                        <br className="hidden sm:inline" />
+                        <span className="text-sky-600">
+                          {typedLineTwo}
+                          <span
+                            className="inline-block w-[3px] h-[0.88em] ml-1 align-middle bg-sky-600 animate-cursor-blink motion-reduce:hidden rounded-xs"
+                          />
+                        </span>
+                      </>
+                    )}
+                  </span>
                 </h1>
                 
                 <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl">
